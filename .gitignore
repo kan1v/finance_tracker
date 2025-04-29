@@ -1,0 +1,4 @@
+.env
+flasksite2.db
+__pycache__/
+flasksite2.db-journal
