@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная Страница</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на наш сайт</h1>
+        <p>Здесь вы сможете управлять своими финансами и следить за обновлениями!</p>
+    </header>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/login">Авторизация</a>
+        <a href="/profile">Профиль</a>
+        <a href="/finances">Финансы</a>
+    </nav>
+    <main>
+        <section>
+            <h2>О сайте</h2>
+            <p>
+                Наш сайт поможет вам легко и эффективно управлять вашими личными финансами.
+                После регистрации и авторизации вы получите доступ к индивидуальному профилю, 
+                а также к разделу "Финансы", где сможете создавать категории расходов, 
+                добавлять траты и следить за своими расходами.
+            </p>
+        </section>
+        <section class="news">
+            <h2>Новости и обновления</h2>
+            {% if updates %}
+                {% for update in updates %}
+                    <div class="news-item">
+                        <h3>{{ update.title }}</h3>
+                        <p>{{ update.content }}</p>
+                        <small>{{ update.date }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Пока новостей нет. Следите за обновлениями!</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
