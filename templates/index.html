@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная Страница</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
 </head>
 <body>
     <header>
@@ -13,6 +15,7 @@
     </header>
     <nav>
         <a href="/">Главная</a>
+        <a href="/news">Новости</a>
         <a href="/login">Авторизация</a>
         <a href="/profile">Профиль</a>
         <a href="/finances">Финансы</a>
@@ -26,21 +29,7 @@
                 а также к разделу "Финансы", где сможете создавать категории расходов, 
                 добавлять траты и следить за своими расходами.
             </p>
-        </section>
-        <section class="news">
-            <h2>Новости и обновления</h2>
-            {% if updates %}
-                {% for update in updates %}
-                    <div class="news-item">
-                        <h3>{{ update.title }}</h3>
-                        <p>{{ update.content }}</p>
-                        <small>{{ update.date }}</small>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>Пока новостей нет. Следите за обновлениями!</p>
-            {% endif %}
-        </section>
+                   
     </main>
 </body>
 </html>

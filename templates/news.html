@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+
+    <title>Новости</title>
+</head>
+<body>
+    <header>
+        <h1>Новости</h1>
+        <p>Последние обновления и анонсы</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Главная</a>
+        <a href="{{ url_for('news') }}">Новости</a>
+        <a href="{{ url_for('login') }}">Авторизация</a>
+        <a href="{{ url_for('login') }}">Профиль</a>
+        <a href="{{ url_for('login') }}">Финансы</a>
+        
+        
+    </nav>
+
+    <main>
+        <section>
+            <h2>Все новости</h2>
+            {% if news_data %}
+                {% for name, text, time in news_data %}
+                    <div class="news-item">
+                        <h3>{{ name }}</h3>
+                        <p>{{ text }}</p>
+                        <small>Дата: {{ time }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Пока новостей нет. Следите за обновлениями!</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

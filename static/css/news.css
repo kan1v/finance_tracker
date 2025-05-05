@@ -1,0 +1,58 @@
+/* Новости */
+main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+/* Заголовок страницы */
+main h1 {
+    text-align: center;
+    color: #4CAF50; /* Темно-синий */
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Список новостей */
+.news-item {
+    background-color: white;
+    border: 1px solid #e3e8f1; /* Светло-серый */
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.news-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-item h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.4rem;
+    color: #2d3e50; /* Темно-серый */
+}
+
+.news-item p {
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+    color: #555;
+}
+
+.news-item small {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    .news-item {
+        padding: 0.8rem;
+    }
+}

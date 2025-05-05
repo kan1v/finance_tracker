@@ -1,0 +1,18 @@
+/* Главная страница */
+main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+/* Раздел "О сайте" */
+section {
+    margin-bottom: 2rem;
+}
+
+section h2 {
+    font-size: 1.8rem;
+    color: #3b5998; /* Темно-синий */
+    border-bottom: 2px solid #e3e8f1; /* Светло-серый */
+    padding-bottom: 0.5rem;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registration.css') }}">
+    <title>Регистрация</title>
+</head>
+
+<body>
+    <header>
+        <h1>Регистрация</h1>
+        <p>Создайте учетную запись, чтобы пользоваться всем функционалом сайта</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Главная</a>
+        <a href="{{ url_for('news') }}">Новости</a>
+        <a href="{{ url_for('login') }}">Вход</a>
+    </nav>
+
+    <main>
+        <!-- Блок для отображения flash-сообщений -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+
+        <div class="auth-form">
+            <h2>Регистрация</h2>
+            <form action="{{ url_for('registration') }}" method="post">
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Подтвердите пароль</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+            <p class="redirect">Уже зарегистрированы? <a href="{{ url_for('login') }}">Войдите</a></p>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+    <title>Авторизация</title>
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать</h1>
+        <p>Авторизуйтесь для доступа</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Главная</a>
+        <a href="#">Новости</a>
+        <a href="#">Профиль</a>
+
+    </nav>
+
+    <main>
+        <div class="auth-form">
+            <h2>Войти</h2>
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-group">
+                    <label for="username">Логин</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Войти</button>
+            </form>
+            <p class="register-link">
+                Если не авторизованы, <a href="{{ url_for('registration') }}">зарегистрируйтесь</a>.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

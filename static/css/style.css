@@ -9,7 +9,7 @@ body {
 
 /* Шапка */
 header {
-    background-color: #3b5998; /* Темно-синий */
+    background-color: #4CAF50; /* Темно-синий */
     color: white;
     padding: 1.5rem 0;
     text-align: center;
@@ -51,61 +51,52 @@ nav a:hover {
     color: white;
 }
 
-/* Основная часть */
-main {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 2rem auto;
-}
-
-/* Раздел "О сайте" */
-section {
-    margin-bottom: 2rem;
-}
-
-section h2 {
-    font-size: 1.8rem;
-    color: #3b5998; /* Темно-синий */
-    border-bottom: 2px solid #e3e8f1; /* Светло-серый */
-    padding-bottom: 0.5rem;
-}
-
-/* Новости */
-.news-item {
-    background-color: white;
-    border: 1px solid #e3e8f1; /* Светло-серый */
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s;
-}
-
-.news-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.news-item h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1.4rem;
-    color: #2d3e50; /* Темно-серый */
-}
-
-.news-item p {
-    margin: 0 0 0.5rem;
-    line-height: 1.5;
-}
-
-.news-item small {
-    font-size: 0.9rem;
-    color: #888;
-}
-
 /* Адаптивность */
 @media (max-width: 768px) {
     nav a {
         display: block;
         margin: 0.5rem 0;
     }
+}
+
+/* Общие стили для flash сообщений */
+.flash-message {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+/* Стили для успешных сообщений */
+.flash-message.success {
+    background-color: #4CAF50; /* Зеленый */
+    color: white;
+    border-left: 5px solid #388E3C;
+}
+
+.flash-message.error {
+    background-color: #F44336; /* Красный */
+    color: white;
+    border-left: 5px solid #D32F2F;
+}
+
+.flash-message.info {
+    background-color: #03A9F4; /* Голубой */
+    color: white;
+    border-left: 5px solid #0288D1;
+}
+
+.flash-message.warning {
+    background-color: #FF9800; /* Оранжевый */
+    color: white;
+    border-left: 5px solid #F57C00;
 }
