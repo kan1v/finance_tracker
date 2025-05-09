@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Профиль</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Войти</a></li>
+                <li><a href="{{ url_for('registration') }}">Регистрация</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>
+        <section class="profile">
+            <div class="profile-card">
+                <img src="{{ url_for('static', filename='images/profile-placeholder.png') }}" alt="Profile Picture">
+                <h2>{{ current_user.username }}</h2>
+                <p>Email: {{ current_user.email }}</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

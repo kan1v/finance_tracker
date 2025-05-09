@@ -14,6 +14,7 @@ from flask_login import LoginManager, login_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 # Импорты связанные с файлами проекта 
 from FDataBase import FDataBase
+from UserLogin import UserLogin
 
 # Основной код поректа 
 
@@ -79,8 +80,16 @@ def news():
 
 
 # Обработчик страницыы авторизации 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == 'POST':
+        user = dbase.getUserByEmail(request.form['email'])
+        if user and check_password_hash(user['hash_password'], request.form['password']):
+            userLogin = UserLogin().create(user)
+            return redirect(url_for('index'))
+
+        flash('Неверный логин или пароль', 'error')
+
     return render_template('login.html')
 
 # Обработчик страницы регистрации
@@ -88,27 +97,48 @@ def login():
 def registration():
     if request.method == 'POST':
         if len(request.form['username']) < 4:
-            flash('В usernmae должно быть больше символов', 'error')
-        elif request.form['username'] == dbase.getUSerUsername(request.form['username']):
+            flash('В usernamae должно быть больше символов', 'error')
+            return render_template('registration.html')
+        
+        # Проверка username в базе данных 
+        user_check = dbase.getUserUsername(request.form['username'])
+        if user_check and user_check['count'] > 0: # Проверяем вернулся ли результат и count > 0
             flash('Пользователь с таким username уже существует', 'error')
-        elif len(request.form['email']) < 4:
-            flash('Введие корректное значение', 'error')
-        elif request.form['email'] == dbase.getUserEmail(request.form['email']):
+            return render_template('registration.html')
+
+        # Проверка на длину email
+        if len(request.form['email']) < 4:
+            flash('Ваш email должен быть более 4 символов', 'error')
+            return render_template('registration.html')
+
+        # Проверка есть ли email в базе данных
+        email_check = dbase.getUserEmail(request.form['email'])
+        if email_check and email_check['count'] > 0: # Проверяем вернулся ли результат и count > 0 
             flash('Пользователь с таким email уже существует', 'error')
-        elif len(request.form['password']) < 4:
-            flash('Пароль должен быть более надежный', 'error')
-        elif request.form['password'] != request.form['confirm_password']:
-            flash('Пароли должны совпадать', 'error')
-        else:
-            hash = generate_password_hash(request.form['password'])
-            res = dbase.addUser(request.form['username'], request.form['email'], hash)
-            if res:
-                flash('Вы успешно зарегестрированы', 'success')
-                return(redirect(url_for('login')))
-            else:
-                flash('Ошибка при добавлении в БД', 'error')
+            return render_template('registration.html')
+
+        # Проверка длинны пароля 
+        if len(request.form['password']) < 4 or request.form['password'] != request.form['confirm_password']:
+            flash('Пароль не надежный, введите больше символов либо пароли не совпадают', 'error')
+            return render_template('registration.html')
+
+        # Если все верно 
+        hash = generate_password_hash(request.form['password'])
+        res = dbase.addUser(request.form['username'], request.form['email'], hash)
+        if res:
+            flash('Вы успешно зарегестрированы ! Пожалуйста войдите в систему')
+            return redirect(url_for('login'))
+                
     
     return render_template('registration.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/finance')
+def finance():
+    return render_template('finance.html')
 
 
 

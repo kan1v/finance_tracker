@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/finance.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Финансы</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Войти</a></li>
+                <li><a href="{{ url_for('registration') }}">Регистрация</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>
+        <section class="finance">
+            <h2>Ваши расходы</h2>
+            <form id="category-form">
+                <input type="text" name="category_name" placeholder="Название категории" required>
+                <input type="color" name="category_color" value="#4CAF50">
+                <button type="submit">Добавить категорию</button>
+            </form>
+
+            <div class="categories">
+                {% for category in categories %}
+                <div class="category" style="border-left: 10px solid {{ category.color }}">
+                    <h3>{{ category.name }}</h3>
+                    <ul>
+                        {% for expense in category.expenses %}
+                        <li>
+                            {{ expense.name }}: {{ expense.amount }} грн
+                            <span class="delete-expense" data-expense-id="{{ expense.id }}">✖</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <p class="total-category">Всего: {{ category.total }} грн</p>
+                    <button class="add-expense" data-category-id="{{ category.id }}">Добавить трату</button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="total-expenses">
+                Всего потрачено: {{ total_expenses }} грн
+            </div>
+        </section>
+    </main>
+</body>
+</html>

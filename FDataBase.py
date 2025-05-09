@@ -27,25 +27,24 @@ class FDataBase:
             return [], [], []  # Если произошла ошибка, возвращаем пустые списки
 
 
-    def getUSerUsername(self, username):
+    def getUserUsername(self, username):
         try:
-            self.__cur.execute("SELECT username FROM  users WHERE username = ?", (username,))
+            self.__cur.execute(f"SELECT COUNT() as 'count' FROM users WHERE username LIKE ?", (username,))
             res = self.__cur.fetchone()
-            if res:
+            if res['count'] > 0:
                 return res
         except sqlite3.Error as e:
-            print(f'Ошибка при выполнееи запроса: {e}')
-            return False
+            print(f'Ошибка проверки по username пользователя в БД: {e}')
+
         
     def getUserEmail(self, email):
         try:
-            self.__cur.execute("SELECT username FROM  users WHERE email = ?", (email,))
+            self.__cur.execute(f"SELECT COUNT() as 'count' FROM users WHERE email LIKE ?", (email,))
             res = self.__cur.fetchone()
-            if res:
+            if res['count'] > 0:
                 return res
         except sqlite3.Error as e:
-            print(f'Ошибка при выполнееи запроса: {e}')
-            return False
+            print(f'Ошибка проверки по email пользователя в БД: {e}')
         
     def addUser(self, username, email, hash_password):
         try:
@@ -56,4 +55,18 @@ class FDataBase:
             print(f'Ошибка доблавения пользователя в БД {e}')
             return False
 
+    def getUserByEmail(self, email):
+        try:
+            self.__cur.execute("SELECR * FROM users WHERE email = ? LIMIT1", (email,))
+            res = self.__cur.fethone()
+            if not res:
+                print("Пользователь не найден")
+                return False
+            
+            return res
+        
+        except sqlite3.Error as e:
+            print(f"Ошибка получения данных и БД: {e}")
+
+        return False
 

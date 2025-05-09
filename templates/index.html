@@ -14,11 +14,19 @@
         <p>Здесь вы сможете управлять своими финансами и следить за обновлениями!</p>
     </header>
     <nav>
-        <a href="/">Главная</a>
-        <a href="/news">Новости</a>
-        <a href="/login">Авторизация</a>
-        <a href="/profile">Профиль</a>
-        <a href="/finances">Финансы</a>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('login') }}">Войти</a></li>
+                <li><a href="{{ url_for('registration') }}">Регистрация</a></li>
+            {% else %}
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% endif %}
+        </ul>
     </nav>
     <main>
         <section>
