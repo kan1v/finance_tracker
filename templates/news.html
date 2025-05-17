@@ -15,13 +15,17 @@
     </header>
 
     <nav>
-        <a href="{{ url_for('index') }}">Главная</a>
-        <a href="{{ url_for('news') }}">Новости</a>
-        <a href="{{ url_for('login') }}">Авторизация</a>
-        <a href="{{ url_for('login') }}">Профиль</a>
-        <a href="{{ url_for('login') }}">Финансы</a>
-        
-        
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('news') }}">Новости</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('registration') }}">Авторизация</a></li>
+            {% endif %}
+        </ul>
     </nav>
 
     <main>

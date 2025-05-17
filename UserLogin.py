@@ -20,3 +20,11 @@ class UserLogin:
     
     def get_id(self):
         return str(self.__user['id'])
+    
+    @property
+    def username(self):
+        return self.__user['username'] if self.__user else None
+
+    @property
+    def email(self):
+        return self.__user['email'] if self.__user else None

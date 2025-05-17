@@ -9,7 +9,7 @@ from flask import Flask, abort, g, render_template, request, flash, redirect, ur
 from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
 # Импорты связанные с Flask-Login
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 # Импорты связанные с Werkzeug 
 from werkzeug.security import generate_password_hash, check_password_hash
 # Импорты связанные с файлами проекта 
@@ -27,6 +27,21 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flasksite2.db')))
+
+# Инициализация LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Указываем, куда перенаправлять неавторизованных пользователей
+login_manager.login_view = 'login'
+
+# Функция загрузки пользователя по user_id
+@login_manager.user_loader
+def load_user(user_id):
+    user = dbase.getUserId(user_id)
+    if user:
+        return UserLogin().create(user)
+    return None
 
 # Подключение к базе данных 
 def connect_db():
@@ -79,18 +94,19 @@ def news():
     return render_template('news.html', news_data=news_data)
 
 
-# Обработчик страницыы авторизации 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        user = dbase.getUserByEmail(request.form['email'])
+        user = dbase.getUserByEmail(request.form['username'])
         if user and check_password_hash(user['hash_password'], request.form['password']):
             userLogin = UserLogin().create(user)
+            login_user(userLogin)  # Авторизуем пользователя
             return redirect(url_for('index'))
 
         flash('Неверный логин или пароль', 'error')
 
     return render_template('login.html')
+
 
 # Обработчик страницы регистрации
 @app.route('/registration', methods=['POST', 'GET'])
@@ -133,12 +149,22 @@ def registration():
     return render_template('registration.html')
 
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', username=current_user.username, enail=current_user.email)
 
 @app.route('/finance')
 def finance():
     return render_template('finance.html')
+
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Вы вышли из системы')
+    return redirect(url_for('index'))
 
 
 

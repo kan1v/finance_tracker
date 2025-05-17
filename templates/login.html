@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Авторизация</title>
 </head>
 <body>
@@ -15,10 +14,19 @@
     </header>
 
     <nav>
-        <a href="{{ url_for('index') }}">Главная</a>
-        <a href="#">Новости</a>
-        <a href="#">Профиль</a>
-
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('news') }}">Новости</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('registration') }}">Авторизация</a></li>
+            {% else %}
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% endif %}
+        </ul>
     </nav>
 
     <main>

@@ -16,13 +16,13 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('news') }}">Новости</a></li>
             {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('profile') }}">Профиль</a></li>
                 <li><a href="{{ url_for('finance') }}">Финансы</a></li>
             {% endif %}
             {% if not current_user.is_authenticated %}
-                <li><a href="{{ url_for('login') }}">Войти</a></li>
-                <li><a href="{{ url_for('registration') }}">Регистрация</a></li>
+                <li><a href="{{ url_for('registration') }}">Авторизация</a></li>
             {% else %}
                 <li><a href="{{ url_for('logout') }}">Выйти</a></li>
             {% endif %}

@@ -100,3 +100,35 @@ nav a:hover {
     color: white;
     border-left: 5px solid #F57C00;
 }
+
+
+nav {
+    background-color: #3b5998; /* Синеватый цвет фона панели */
+    padding: 10px; /* Внутренние отступы */
+}
+
+nav ul {
+    display: flex; /* Flexbox для размещения элементов в одну строку */
+    list-style: none; /* Убираем маркеры списка */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 0; /* Убираем внутренние отступы */
+    justify-content: center; /* Центрируем элементы в панели */
+}
+
+nav ul li {
+    margin: 0 15px; /* Отступы между элементами */
+}
+
+nav ul li a {
+    color: white; /* Белый цвет текста ссылок */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-weight: bold; /* Жирный текст */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    transition: background-color 0.3s; /* Плавная анимация при наведении */
+}
+
+nav ul li a:hover {
+    background-color: #0056b3; /* Более тёмный оттенок синего при наведении */
+    color: white; /* Цвет текста остаётся белым */
+}

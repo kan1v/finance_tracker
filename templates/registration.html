@@ -16,16 +16,26 @@
     </header>
 
     <nav>
-        <a href="{{ url_for('index') }}">Главная</a>
-        <a href="{{ url_for('news') }}">Новости</a>
-        <a href="{{ url_for('login') }}">Вход</a>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('news') }}">Новости</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                <li><a href="{{ url_for('finance') }}">Финансы</a></li>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('login') }}">Вход</a></li>
+            {% else %}
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% endif %}
+        </ul>
     </nav>
 
     <main>
         <!-- Блок для отображения flash-сообщений -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="flash-messages">
+        <div id="flash-messages" class="flash-messages">
             {% for category, message in messages %}
             <div class="flash-message {{ category }}">
                 {{ message }}
@@ -34,7 +44,6 @@
         </div>
         {% endif %}
         {% endwith %}
-
 
         <div class="auth-form">
             <h2>Регистрация</h2>
@@ -60,6 +69,7 @@
             <p class="redirect">Уже зарегистрированы? <a href="{{ url_for('login') }}">Войдите</a></p>
         </div>
     </main>
+    <script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
 </body>
 
 </html>

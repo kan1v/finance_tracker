@@ -72,3 +72,27 @@ button:hover {
 .login-link a:hover {
     text-decoration: underline;
 }
+
+
+/* Стили для навигационной панели */
+nav {
+    display: flex; /* Устанавливает флекс-контейнер */
+    justify-content: center; /* Центрирует элементы */
+    gap: 15px; /* Промежуток между элементами */
+    background-color: #f4f4f4; /* Цвет фона панели */
+    padding: 10px 0; /* Отступы сверху и снизу */
+}
+
+nav a {
+    text-decoration: none; /* Убирает подчеркивание у ссылок */
+    color: #333; /* Цвет текста */
+    font-weight: bold; /* Жирный текст */
+    padding: 5px 10px; /* Внутренние отступы у ссылок */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: #3b5998; /* Фон при наведении */
+    color: #fff; /* Цвет текста при наведении */
+    border-radius: 4px; /* Закругленные углы */
+}
