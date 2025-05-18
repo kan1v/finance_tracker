@@ -1,0 +1,340 @@
+/* Фон и шрифт — как на странице логина */
+
+
+
+
+
+
+/* Контейнер основной */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* Flash-сообщения: цвета и фон по категориям */
+
+.flash-messages {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.flash-message {
+    margin-bottom: 8px;
+}
+
+/* Успешное сообщение */
+.flash-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+/* Ошибка */
+.flash-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+/* Остальные стили */
+
+h2, h3, h4 {
+    margin-bottom: 10px;
+}
+
+.form-inline {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="color"] {
+    padding: 8px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+    width: 200px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="color"]:focus {
+    outline: none;
+    border-color: #e67e22;
+}
+
+button.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e67e22;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+    background-color: #d35400;
+}
+
+button.btn-primary {
+    background-color: #2980b9;
+}
+
+button.btn-primary:hover {
+    background-color: #1c5980;
+}
+
+button.btn-success {
+    background-color: #27ae60;
+}
+
+button.btn-success:hover {
+    background-color: #1e8449;
+}
+
+button.btn-secondary {
+    background-color: #7f8c8d;
+}
+
+button.btn-secondary:hover {
+    background-color: #626d70;
+}
+
+.balance-section {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.1);
+}
+
+#balance-value {
+    font-weight: 700;
+    color: #27ae60;
+}
+
+.category-block {
+    background: #fff;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.1);
+    padding: 15px 20px;
+    position: relative;
+    border-left: 8px solid;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-header h4 {
+    margin: 0;
+}
+
+.category-total {
+    font-weight: 600;
+    color: #e67e22;
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.toggle-expenses {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #34495e;
+    transition: transform 0.3s ease;
+    margin-left: 15px;
+}
+
+.toggle-expenses.rotate {
+    transform: rotate(180deg);
+}
+
+.expenses-list {
+    margin-top: 15px;
+    padding-left: 10px;
+}
+
+.expenses-list ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+.expenses-list li {
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.btn-delete, .btn-delete-inline {
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.btn-delete:hover, .btn-delete-inline:hover {
+    color: #e74c3c;
+}
+
+.delete-form {
+    margin-left: 10px;
+}
+
+.delete-form-inline {
+    margin-left: 10px;
+    display: inline;
+}
+
+.expense-form input[type="text"],
+.expense-form input[type="number"] {
+    width: 150px;
+}
+
+@media (max-width: 600px) {
+    .form-inline {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="color"] {
+        width: 100%;
+    }
+
+    .expense-form input[type="text"],
+    .expense-form input[type="number"] {
+        width: 100%;
+    }
+}
+
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Чтобы все элементы выровнять слева */
+    gap: 8px; /* Расстояние между элементами */
+    position: relative;
+}
+
+.category-header h4 {
+    flex-grow: 1; /* Заголовок занимает всё доступное место */
+    margin: 0;
+}
+
+.delete-form {
+    margin: 0;
+    /* уберём margin-left, чтобы не было отступа */
+}
+
+.btn-delete {
+    font-size: 1.4rem;
+    color: #c0392b;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
+    margin-left: -10px;  /* сдвигаем крестик влево ближе к стрелке */
+    transition: color 0.3s ease;
+}
+
+.toggle-expenses {
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #34495e;
+    background: none;
+    border: none;
+    margin-left: 0; /* чтобы не было лишнего отступа */
+}
+
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+    .balance-section, .add-category, .categories-section {
+      padding: 15px;
+    }
+  
+    .form-inline {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    input[type="text"],
+    input[type="number"],
+    input[type="color"],
+    button.btn {
+      width: 100%;
+    }
+  
+    .category-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .category-header h4 {
+      margin-bottom: 8px;
+    }
+  
+    .toggle-expenses, .btn-delete {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  
+    .expenses-list li {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  
+    .btn-delete-inline {
+      padding: 0;
+    }
+  }
+  
+/* Планшетная адаптация */
+@media (max-width: 900px) and (min-width: 601px) {
+    .form-inline {
+      flex-wrap: wrap;
+    }
+  
+    input[type="text"],
+    input[type="number"],
+    input[type="color"] {
+      width: 45%;
+    }
+  
+    button.btn {
+      width: auto;
+    }
+  
+    .category-header {
+      flex-wrap: wrap;
+    }
+}
+  
+
+

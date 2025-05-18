@@ -10,6 +10,7 @@
 <body>
     <header>
         <h1>Профиль</h1>
+        <p>Ваш профиль</p>
     </header>
     <nav>
         <ul>
@@ -24,11 +25,11 @@
             {% endif %}
         </ul>
     </nav>
-    <main>
+    <main class="profile-page">
         <section class="profile">
             <div class="profile-card">
-                <img src="{{ url_for('static', filename='images/profile-placeholder.png') }}" alt="Profile Picture">
-                <h2>{{ current_user.username }}</h2>
+                <img src="{{ url_for('static', filename='images/profile_avatar_image.png') }}" alt="Profile Picture">
+                <h2>Username: {{ current_user.username }}</h2>
                 <p>Email: {{ current_user.email }}</p>
             </div>
         </section>

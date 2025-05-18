@@ -1,0 +1,111 @@
+/* Все стили профиля внутри блока с классом profile-page */
+.profile-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.profile-page header {
+    background-color: #2980b9;
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.profile-page header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.profile-page header p {
+    margin: 5px 0 0;
+    font-size: 1.1rem;
+}
+
+.profile-page nav {
+    background-color: #34495e;
+}
+
+.profile-page nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.profile-page nav ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+.profile-page nav ul li a:hover {
+    background-color: #2980b9;
+    color: white;
+}
+
+.profile-page main {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.profile-page .profile-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.profile-page .profile-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #2980b9;
+    margin-bottom: 15px;
+}
+
+.profile-page .profile-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+.profile-page .profile-card p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .profile-page nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .profile-page main {
+        margin: 20px 10px;
+    }
+
+    .profile-page .profile-card {
+        padding: 15px;
+    }
+
+    .profile-page .profile-card img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-page .profile-card h2 {
+        font-size: 1.5rem;
+    }
+}

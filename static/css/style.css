@@ -51,13 +51,60 @@ nav a:hover {
     color: white;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    nav a {
-        display: block;
-        margin: 0.5rem 0;
+/* Адаптация для мобильных устройств (максимум 600px ширина) */
+@media (max-width: 600px) {
+    body {
+      font-size: 14px;
+      padding: 10px;
     }
-}
+  
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    nav ul {
+      flex-direction: column;
+      padding: 0;
+    }
+  
+    nav ul li {
+      margin-bottom: 10px;
+    }
+  
+    nav ul li a {
+      font-size: 1.1rem;
+    }
+  
+    .container {
+      padding: 0 10px;
+      max-width: 100%;
+    }
+  }
+  
+  /* Адаптация для планшетов (максимум 900px ширина) */
+  @media (max-width: 900px) and (min-width: 601px) {
+    body {
+      font-size: 15px;
+      padding: 15px;
+    }
+  
+    header h1 {
+      font-size: 1.8rem;
+    }
+  
+    nav ul {
+      flex-wrap: wrap;
+    }
+  
+    nav ul li {
+      margin-right: 15px;
+    }
+  
+    .container {
+      max-width: 90%;
+    }
+  }
+  
 
 /* Общие стили для flash сообщений */
 .flash-message {
@@ -85,7 +132,7 @@ nav a:hover {
 
 .flash-message.error {
     background-color: #F44336; /* Красный */
-    color: white;
+    color: red;
     border-left: 5px solid #D32F2F;
 }
 

@@ -153,9 +153,111 @@ def registration():
 def profile():
     return render_template('profile.html', username=current_user.username, enail=current_user.email)
 
-@app.route('/finance')
+
+
+@app.route('/finance', methods=['GET', 'POST'])
+@login_required
 def finance():
-    return render_template('finance.html')
+    user_id = current_user.get_id()
+    old_balance = dbase.getBalance(user_id) or 0
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        if action == 'update_balance':
+            try:
+                add_amount = float(request.form.get('add_balance', 0))
+                if add_amount < 0:
+                    flash('Сумма пополнения не может быть отрицательной.', 'error')
+                else:
+                    new_balance = old_balance + add_amount
+                    if dbase.updateBalance(user_id, new_balance):
+                        flash(f'Баланс успешно пополнен на {add_amount}.', 'success')
+                    else:
+                        flash('Ошибка при обновлении баланса.', 'error')
+            except ValueError:
+                flash('Введите корректное значение для пополнения баланса.', 'error')
+
+        elif action == 'add_category':
+            name = request.form.get('name', '').strip()
+            color = request.form.get('color', '').strip()
+            if not name:
+                flash('Название категории не может быть пустым.', 'error')
+            elif not color:
+                flash('Цвет категории не указан.', 'error')
+            else:
+                if dbase.addCategory(user_id, name, color):
+                    flash('Категория успешно добавлена.', 'success')
+                else:
+                    flash('Ошибка при добавлении категории.', 'error')
+
+        elif action == 'add_expense':
+            try:
+                category_id = int(request.form.get('category_id'))
+                name = request.form.get('expense_name', '').strip()
+                amount = float(request.form.get('expense_amount', 0))
+
+                if not name or amount <= 0:
+                    flash('Введите корректные данные для траты.', 'error')
+                else:
+                    balance = dbase.getBalance(user_id) or 0
+                    if amount > balance:
+                        flash('Недостаточно средств на балансе для этой траты.', 'error')
+                    else:
+                        if dbase.addExpense(user_id, category_id, name, amount):
+                            new_balance = balance - amount
+                            dbase.updateBalance(user_id, new_balance)
+                            flash('Трата успешно добавлена и баланс обновлён.', 'success')
+                        else:
+                            flash('Ошибка при добавлении траты.', 'error')
+            except ValueError as e:
+                flash(f'Некорректные данные: {e}', 'error')
+
+        elif action == 'delete_category':
+            try:
+                category_id = int(request.form.get('category_id'))
+                if dbase.deleteCategory(user_id, category_id):
+                    flash('Категория успешно удалена.', 'success')
+                else:
+                    flash('Ошибка при удалении категории.', 'error')
+            except ValueError:
+                flash('Некорректный ID категории.', 'error')
+
+        elif action == 'delete_expense':
+            try:
+                expense_id = int(request.form.get('expense_id'))
+                expense = dbase.getExpenseById(user_id, expense_id)
+                if expense:
+                    amount = expense['amount']
+                    if dbase.deleteExpense(user_id, expense_id):
+                        balance = dbase.getBalance(user_id) or 0
+                        dbase.updateBalance(user_id, balance + amount)
+                        flash('Трата успешно удалена, баланс обновлён.', 'success')
+                    else:
+                        flash('Ошибка при удалении траты.', 'error')
+                else:
+                    flash('Трата не найдена.', 'error')
+            except ValueError:
+                flash('Некорректный ID траты.', 'error')
+
+        return redirect(url_for('finance'))
+
+    balance = dbase.getBalance(user_id) or 0
+    categories = dbase.getCategoriesWithExpenses(user_id)
+    total_expenses = sum(cat['total'] for cat in categories)
+
+    return render_template(
+        'finance.html',
+        balance=balance,
+        categories=categories,
+        total_expenses=total_expenses
+    )
+
+
+
+
+
+            
 
 
 

@@ -1,91 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Финансы</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/finance.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/finance.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
 </head>
 <body>
+
     <header>
         <h1>Финансы</h1>
+        <p>Отслеживание ваших финансов</p>
     </header>
 
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Главная</a></li>
+            <li><a href="{{ url_for('news') }}">Новости</a></li>
             {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('profile') }}">Профиль</a></li>
                 <li><a href="{{ url_for('finance') }}">Финансы</a></li>
-                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('login') }}">Вход</a></li>
             {% else %}
-                <li><a href="{{ url_for('login') }}">Войти</a></li>
-                <li><a href="{{ url_for('registration') }}">Регистрация</a></li>
+                <li><a href="{{ url_for('logout') }}">Выйти</a></li>
             {% endif %}
         </ul>
     </nav>
 
-    <main>
+    <div class="container">
+
+        <!-- Flash-сообщения -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Баланс -->
         <section class="balance-section">
-            <h2>Баланс</h2>
-            <p>Текущий баланс: <strong>{{ balance if balance is not none else 0 }} грн</strong></p>
-            <form id="balance-form" method="post" action="{{ url_for('update_balance') }}">
-                <input 
-                    type="number" 
-                    name="balance_amount" 
-                    placeholder="Введите сумму баланса" 
-                    min="0" 
-                    required 
-                    value="{{ balance if balance is not none else '' }}"
-                />
-                <button type="submit">Обновить баланс</button>
+            <h2>Баланс: <span id="balance-value">{{ balance }}</span> грн</h2>
+
+            <form method="POST" class="form-inline" id="balance-form">
+                <input type="hidden" name="action" value="update_balance" />
+                <input type="number" name="add_balance" min="0" step="0.01" placeholder="Сумма для пополнения" required />
+                <button type="submit" class="btn btn-primary">Пополнить баланс</button>
             </form>
         </section>
 
-        <section class="finance-section">
-            <h2>Категории расходов</h2>
-
-            <!-- Форма добавления категории -->
-            <form id="category-form" method="post" action="{{ url_for('add_category') }}">
-                <input type="text" name="category_name" placeholder="Название категории" required />
-                <input type="color" name="category_color" value="#4CAF50" />
-                <button type="submit">Добавить категорию</button>
+        <!-- Добавление категории -->
+        <section class="add-category">
+            <h3>Добавить категорию</h3>
+            <form method="POST" class="form-inline">
+                <input type="hidden" name="action" value="add_category" />
+                <input type="text" name="name" placeholder="Название категории" required />
+                <input type="color" name="color" value="#ff0000" required />
+                <button type="submit" class="btn btn-success">Добавить</button>
             </form>
+        </section>
 
-            <div class="categories">
+        <!-- Категории и траты -->
+        <section class="categories-section">
+            <h3>Категории и траты</h3>
+
+            {% if categories %}
                 {% for category in categories %}
-                <div class="category" style="border-left: 10px solid {{ category.color }};">
-                    <h3>{{ category.name }}</h3>
-                    <ul>
-                        {% for expense in category.expenses %}
-                        <li>
-                            {{ expense.name }}: {{ expense.amount }} грн
-                            <form method="post" action="{{ url_for('delete_expense', expense_id=expense.id) }}" style="display:inline;">
-                                <button type="submit" class="delete-expense" title="Удалить трату">✖</button>
+                    <div class="category-block" style="border-left: 8px solid {{ category.color }};">
+                        <div class="category-header">
+                            <h4>{{ category.name }} <span class="category-total">({{ category.total }} грн)</span></h4>
+
+                            <form method="POST" class="delete-form" onsubmit="return confirm('Удалить категорию и все её траты?');">
+                                <input type="hidden" name="action" value="delete_category" />
+                                <input type="hidden" name="category_id" value="{{ category.id }}" />
+                                <button type="submit" class="btn-delete" title="Удалить категорию">×</button>
                             </form>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <p class="total-category">Всего в категории: {{ category.total }} грн</p>
 
-                    <!-- Форма добавления траты -->
-                    <form class="add-expense-form" method="post" action="{{ url_for('add_expense') }}">
-                        <input type="hidden" name="category_id" value="{{ category.id }}" />
-                        <input type="text" name="expense_name" placeholder="Название траты" required />
-                        <input type="number" name="expense_amount" placeholder="Сумма" min="0" step="0.01" required />
-                        <button type="submit">Добавить трату</button>
-                    </form>
-                </div>
-                {% else %}
-                <p>Пока нет категорий. Добавьте первую.</p>
+                            <button class="toggle-expenses" aria-label="Показать/Скрыть траты">▼</button>
+                        </div>
+
+                        <div class="expenses-list" style="display:none;">
+                            {% if category.expenses %}
+                                <ul>
+                                    {% for expense in category.expenses %}
+                                        <li>
+                                            {{ expense.name }} — {{ expense.amount }} грн
+                                            <form method="POST" class="delete-form-inline" onsubmit="return confirm('Удалить эту трату?');">
+                                                <input type="hidden" name="action" value="delete_expense" />
+                                                <input type="hidden" name="expense_id" value="{{ expense.id }}" />
+                                                <button type="submit" class="btn-delete-inline" title="Удалить трату">×</button>
+                                            </form>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>Трат нет</p>
+                            {% endif %}
+
+                            <form method="POST" class="form-inline expense-form">
+                                <input type="hidden" name="action" value="add_expense" />
+                                <input type="hidden" name="category_id" value="{{ category.id }}" />
+                                <input type="text" name="expense_name" placeholder="Название траты" required />
+                                <input type="number" name="expense_amount" min="0.01" step="0.01" placeholder="Сумма" required />
+                                <button type="submit" class="btn btn-secondary">Добавить трату</button>
+                            </form>
+                        </div>
+                    </div>
                 {% endfor %}
-            </div>
-
-            <div class="total-expenses">
-                <h3>Общие расходы: {{ total_expenses }} грн</h3>
-            </div>
+            {% else %}
+                <p>Категории не созданы.</p>
+            {% endif %}
         </section>
-    </main>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/flash_finance.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/finance.js') }}"></script>
+
 </body>
 </html>
